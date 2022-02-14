@@ -1,4 +1,4 @@
-package recursions;
+package recursions.session1;
 
 public class PowerFour {
 
