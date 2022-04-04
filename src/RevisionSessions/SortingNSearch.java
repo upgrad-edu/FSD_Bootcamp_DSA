@@ -2,6 +2,98 @@ package RevisionSessions;
 
 public class SortingNSearch {
 
+    /**
+     * Find the square root of a positive number
+     * <p>
+     * Given a positive number, find it square root. In the case the given number is not the perfect square, return the floor of it’s square root
+     * <p>
+     * Examples:
+     * <p>
+     * Input:  x = 12
+     * Output: 3
+     * <p>
+     * Input:  x = 16
+     * Output: 4
+     */
+    public static int squareRoot(int num) {
+        if (num < 2) {
+            return num;
+        }
+
+        int result = 0;
+
+        // the square root of `x` cannot be more than `x/2` for `x > 1`
+        int start = 1;
+        int end = num / 2;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            long sqr = mid * mid;
+
+            if (sqr == num) {
+                return mid;
+            } else if (sqr < num) {
+                start = mid + 1;
+
+                // update result since we need a floor
+                result = mid;
+            } else {
+                end = mid - 1;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * Find the element occurring odd number of times
+     *
+     * You are provided with an array of integers with the following conditions :
+     * 1.Every element appears an even number of times, except one element which appears an odd number of times
+     * 2.Identical elements appear in pairs in the array and there cannot be more than two consecutive occurrences of an element
+     *
+     * Find the odd occurring elements in the logarithmic time.
+     *
+     * For example :
+     * {2, 3, 2} and {2, 2, 3, 3, 3, 4, 4} both of these arrays are invalid. Why, because identical elements are either not in pair or are more than 2
+     *
+     * Valid input array : {2, 2, 3, 3, 2, 2, 4, 4, 3, 1, 1} , Output = 3
+     */
+
+    public static int findOddOccuring(int[] nums, int low, int high)
+    {
+        if (low == high) {
+            return low;
+        }
+
+        int mid = low + (high-low)/2;
+
+        if (mid % 2 == 1)
+        {
+            // if the element before `mid` is the same as the middle element, the odd
+            // element lies on the right side; otherwise, it lies on the left side
+            if (nums[mid] == nums[mid - 1]) {
+                return findOddOccuring(nums, mid + 1, high);
+            }
+            else {
+                return findOddOccuring(nums, low, mid - 1);
+            }
+        }
+
+        // `mid` is even
+        else {
+            // if the element next to `mid` is the same as the middle element, the odd
+            // element lies on the right side; otherwise, it lies on the left side
+            if (nums[mid] == nums[mid + 1]) {
+                return findOddOccuring(nums, mid + 2, high);
+            }
+            else {
+                return findOddOccuring(nums, low, mid);
+            }
+        }
+    }
+
+
 
     /**
      * Find the maximum element
